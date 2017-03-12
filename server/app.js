@@ -8,19 +8,19 @@ app.use(bodyParser.json());
 
 router.get('/people', function(req, res){
   res.status(200).send([
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
-    {'name' : 'Martarello', 'firstname' : 'Stéphane'},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
+    {'name' : 'Martarello', 'firstname' : 'Stéphane', 'jobTitle' : 'Developper', 'picture' : '/assets/images/user.png', 'skills' : ['Symfony', 'VueJs', 'NodeJs']},
 
   ]);
 });
