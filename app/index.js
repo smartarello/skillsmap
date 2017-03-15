@@ -2,6 +2,7 @@ import Vue from 'vue'
 import People from './Components/People.vue'
 import VueRouter from 'vue-router'
 import Resource from 'vue-resource'
+import store from './store'
 
 Vue.use(Resource);
 Vue.use(VueRouter);
@@ -18,6 +19,7 @@ class SkillsMapping {
 
     this.vue = new Vue({
       router,
+      store,
        el: '#app'
     });
   }

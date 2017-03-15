@@ -23,27 +23,15 @@ import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'people',
-  data: function() {
-    return{
-      users: []
+  computed: {
+    users(){
+      return this.$store.state.people;
     }
   },
   components: {'user-card' : UserCard, 'search-bar' : SearchBar},
 
   mounted: function () {
-    this.fetchUsers();
-  },
-  methods: {
-    fetchUsers: function () {
-      this.$http.get('http://localhost:3000/api/people').then(
-      function (res) {
-        this.users =  res.body;
-
-      },
-      function (err) {
-        console.log(err);
-      });
-    }
+    this.$store.dispatch('loadPeople');
   }
 }
 </script>

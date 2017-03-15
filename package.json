@@ -30,6 +30,7 @@
     "vue-router": "^2.3.0",
     "vue-template-compiler": "^2.2.2",
     "vue-template-loader": "^0.2.4",
+    "vuex": "^2.2.1",
     "webpack": "^2.2.1"
   },
   "scripts": {
