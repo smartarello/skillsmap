@@ -1,12 +1,12 @@
 <template>
-  <div class="UserCard col-lg-2 col-md-3 col-sm-4 col-xs-12">
+  <div class="UserCard col-lg-2 col-md-4 col-sm-6 col-xs-12">
     <div class="UserCard-container ">
       <div class="UserCard-pictureContainer"><img class="UserCard-picture" :src="user.picture"/></div>
       <div class="UserCard-name">{{ user.name }} {{ user.firstname}}</div>
       <div class="UserCard-jobTitle">{{ user.jobTitle }}</div>
 
         <ul class="UserCard-skills" v-if="user.skills.length != 0">
-          <li v-for="skill in user.skills">
+          <li v-for="skill in user.skills" >
             {{ skill }}
           </li>
         </ul>
