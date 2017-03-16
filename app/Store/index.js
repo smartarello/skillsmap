@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
-let apiUrl = 'http://localhost:3000';
-
 export default new Vuex.Store({
   state: {
     people: []
@@ -17,7 +15,7 @@ export default new Vuex.Store({
 
   actions: {
       loadPeople (context) {
-        Vue.http.get(apiUrl + '/api/people').then(
+        Vue.http.get('/api/people').then(
         (res) => {
           context.commit('loadPeople', res.body)
         },
