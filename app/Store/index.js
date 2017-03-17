@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router.js'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    people: []
+    people: [],
+    user: {}
   },
   mutations: {
     loadPeople(state, people) {
       state.people = people;
+    },
+
+    showUserDetails(state, user) {
+
     }
   },
 
@@ -22,6 +28,10 @@ export default new Vuex.Store({
         function (err) {
           console.log(err);
         });
+      },
+
+      showUserDetails(context, user){
+        router.push({name: 'user', params: {username: user.username}});
       }
   }
 })
