@@ -4,3 +4,5 @@ dist/
 npm-debug.log
 yarn-error.log
 database.db
+server/config.js
+.idea/

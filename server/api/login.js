@@ -1,7 +1,9 @@
+let config = require('../config.js');
+
 module.exports = {
   getOAuthUrl(req, res){
     console.log("Call getOAuthUrl");
-    console.log(req.session);
+
     if (req.session.user) {
       res.status(200).send({alreadyConnected: true});
       return ;
@@ -12,9 +14,9 @@ module.exports = {
     let OAuth2 = google.auth.OAuth2;
 
     let oauth2Client = new OAuth2(
-      "963105479216-9jebphqd6p6h2d2gojla0skekam40lfh.apps.googleusercontent.com",
-      "fVHRnBxxAPOVJ6z62IkuBVw-",
-      "http://devcklstest.crossknowledge.com:8000"
+      config.google.clientId,
+      config.google.secret,
+      config.google.redirectUrl
     );
 
     // generate a url that asks permissions for Google+
@@ -37,7 +39,6 @@ module.exports = {
   login(req, res){
 
     console.log('Call login');
-    console.log(req.session);
 
     if (!req.query.code) {
         res.status(403).send();
@@ -48,9 +49,9 @@ module.exports = {
     let OAuth2 = google.auth.OAuth2;
 
     let oauth2Client = new OAuth2(
-      "963105479216-9jebphqd6p6h2d2gojla0skekam40lfh.apps.googleusercontent.com",
-      "fVHRnBxxAPOVJ6z62IkuBVw-",
-      "http://devcklstest.crossknowledge.com:8000"
+      config.google.clientId,
+      config.google.secret,
+      config.google.redirectUrl
     );
 
     oauth2Client.getToken(req.query.code, function (err, tokens) {
@@ -76,18 +77,27 @@ module.exports = {
               let firstname = response.name.givenName;
               let picture = '';
               if (response.image.url) {
-                picture = response.image.url;
-                picture.replace('sz=50', 'sz=200');
+                picture = response.image.url.replace('sz=50', 'sz=200');
               }
 
-              let sqlite3 = require("sqlite3").verbose();
-              let db = new sqlite3.Database("./database.db");
 
-              db.serialize(function(){
-                db.run("INSERT OR IGNORE INTO users (username, name, firstname, picture) VALUES ('"+email+"', '"+name+"', '"+firstname+"', '"+picture+"')");
+              let mysql = require('mysql');
+              let connection = mysql.createConnection({
+                host     : config.mysql.host,
+                user     : config.mysql.user,
+                password : config.mysql.password,
+                database : config.mysql.database
               });
 
-              res.status(200).send();
+              connection.connect((err) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    connection.query("INSERT INTO users (username, name, firstname, picture) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)", [email, name, firstname, picture]);
+                    req.session.user = {username: email, name: name, firstname: firstname, picture: picture};
+                    res.status(200).send(req.session.user);
+                  }
+              });
             }
         });
       } else {
