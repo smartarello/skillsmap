@@ -1,7 +1,7 @@
 <template>
   <div class="Login container">
     <div v-if="googleUrl == ''"  class="Login-loaderContainer"><div class="Login-loader"></div></div>
-    <h1 class="Login-title">Skills map</h1>
+    <h2 class="Login-title">Skills map</h2>
     <div class="Login-buttonContainer">
       <button v-on:click="connect" type="button" class="btn btn-lg Login-button"></button>
     </div>
@@ -73,7 +73,7 @@ export default {
     margin-top: 55px;
     text-align: center;
     color: #D20108;
-    font-family: robotomedium;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
 .Login-buttonContainer {
