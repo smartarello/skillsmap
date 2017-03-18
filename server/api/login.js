@@ -5,7 +5,7 @@ module.exports = {
     console.log("Call getOAuthUrl");
 
     if (req.session.user) {
-      res.status(200).send({alreadyConnected: true});
+      res.status(200).send({user: req.session.user});
       return ;
     }
 

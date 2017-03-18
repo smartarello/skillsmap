@@ -3,12 +3,12 @@ let router = express.Router();
 let bodyParser = require('body-parser');
 let app = express();
 let session = require('express-session');
-let mysql = require('mysql');
 
 let config = require('./config.js');
 let database = require('./utils/database.js');
 let LoginApi = require('./api/login.js');
 let UserApi = require('./api/user.js');
+let SkillApi = require('./api/skill.js');
 
 app.use(session({
     secret: 'egypmns4r8qp',
@@ -31,6 +31,7 @@ router.get('/getOAuthUrl', LoginApi.getOAuthUrl);
 router.get('/login', LoginApi.login);
 router.get('/user', UserApi.getUser);
 router.get('/people', UserApi.get);
+router.get('/skill/search', SkillApi.get);
 
 app.use(function (req, res, next) {
 

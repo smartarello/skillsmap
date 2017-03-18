@@ -22,7 +22,7 @@
 
     methods: {
       showUserDetails: function() {
-        this.$store.dispatch('showUserDetails', this.user);
+        this.$store.commit('showUserDetails', this.user);
       }
     }
 
