@@ -63,7 +63,7 @@
                         </div>
                         <ul class="list-group User-skillList"  v-if="user.skills.length != 0">
                             <li v-for="skill in user.skills" class="list-group-item">
-                                <button v-if="edit" type="button" class="btn btn-warning User-deleteSkillButton"><i class="glyphicon glyphicon-remove"></i></button>
+                                <button v-on:click="removeSkill(skill.name, user)" v-if="edit" type="button" class="btn btn-warning User-deleteSkillButton"><i class="glyphicon glyphicon-remove"></i></button>
                                 <span v-if="skill.votes != 0" class="badge">{{skill.votes}}</span>
                                 {{ skill.name }}
                             </li>
@@ -71,7 +71,8 @@
                     </div>
                 </div>
 
-                <button v-if="edit" v-on:click="onSave"  type="button" class="btn btn-primary  col-sm-2 col-xs-12 col-sm-offset-10 col-md-offset-10">Save</button>
+                <button v-if="edit" v-on:click="onSave"  type="button" class="btn btn-primary  col-sm-2 col-xs-12 col-sm-offset-8 col-md-offset-8">Save</button>
+                <button v-if="edit" v-on:click="onCancel"  type="button" class="btn btn-default  col-sm-2 col-xs-12">Cancel</button>
             </div>
         </div>
     </div>
@@ -95,7 +96,7 @@
         },
 
         isMyprofile(){
-            return true;// this.user && this.$store.state.user && (this.user.username == this.$store.state.user.username);
+            return this.user && this.$store.state.user && (this.user.username == this.$store.state.user.username);
         }
       },
 
@@ -125,6 +126,18 @@
           this.skillText = "";
         },
 
+
+        removeSkill(skill) {
+         let modifiedSkillList = [];
+         for (let i = 0; i < this.user.skills.length; i++) {
+           if (this.user.skills[i].name != skill) {
+             modifiedSkillList.push(this.user.skills[i]);
+           }
+         }
+
+         this.user.skills = modifiedSkillList;
+        },
+
         onEdit(){
           this.edit = true;
         },
@@ -132,10 +145,15 @@
         onSave(){
           this.edit = false;
           this.$http.post('/api/user/save', {user: this.user});
-        }
-      },
+        },
 
-        mounted: function() {
+        onCancel(){
+          // refresh data with the server infos
+          this.getUserInfos();
+          this.edit = false;
+        },
+
+        getUserInfos(){
           if (this.$route.params.username) {
             this.$http.get('/api/user?username=' + this.$route.params.username).then(
               function (res) {
@@ -145,6 +163,11 @@
                 console.log(err);
               });
           }
+        }
+      },
+
+        mounted: function() {
+          this.getUserInfos();
         }
     }
 

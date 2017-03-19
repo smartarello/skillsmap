@@ -1,14 +1,14 @@
 <template>
-  <div class="container-fluid People">
+  <div class="People">
     <h1>People</h1>
     <div class="row">
 
       <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
         <div class="row">
-          <search-bar class="People-searchBar col-xs-12 col-sm-12 col-md-6"></search-bar>
+          <search-bar class="People-searchBar col-xs-12 col-sm-12 col-md-9"></search-bar>
         </div>
         <div class="row">
-          <user-card v-for="user in users" :user="user"></user-card>
+          <user-card v-for="user in users" :user="user" class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></user-card>
         </div>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
@@ -37,7 +37,5 @@ export default {
 </script>
 
 <style  lang="scss">
-.People-searchBar {
-  margin-left: 18px;
-}
+
 </style>

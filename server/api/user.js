@@ -46,7 +46,7 @@ module.exports = {
           let skills = [];
           let user = {username: row.username, name: row.name, firstname: row.firstname, jobTitle: row.job_title};
           if (row.skills) {
-            skills = row.skills.split(',');
+            skills = row.skills.split(',').slice(0, 3);
           }
 
           user.skills = skills;

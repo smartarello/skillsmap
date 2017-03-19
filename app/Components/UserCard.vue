@@ -1,5 +1,5 @@
 <template>
-  <div class="UserCard col-lg-2 col-md-4 col-sm-6 col-xs-12">
+  <div class="UserCard">
     <div v-on:click="showUserDetails" class="UserCard-container ">
       <div class="UserCard-pictureContainer"><img class="UserCard-picture" :src="user.picture"/></div>
       <div class="UserCard-name">{{ user.name }} {{ user.firstname}}</div>
