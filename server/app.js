@@ -30,6 +30,7 @@ database.createSchema();
 router.get('/getOAuthUrl', LoginApi.getOAuthUrl);
 router.get('/login', LoginApi.login);
 router.get('/user', UserApi.getUser);
+router.post('/user/save', UserApi.save);
 router.get('/people', UserApi.get);
 router.get('/skill/search', SkillApi.get);
 

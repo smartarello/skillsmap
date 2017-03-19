@@ -8,7 +8,7 @@ module.exports = {
    * @param  data the data to inject in the SQL (parameters)
    * @param fn the callback which is executed after the SQL request
    */
-  select(sql, data, fn) {
+  query(sql, data, fn) {
 
     let connection = mysql.createConnection({
       host     : config.mysql.host,

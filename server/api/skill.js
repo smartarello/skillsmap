@@ -16,7 +16,7 @@ module.exports = {
       sql += " WHERE name LIKE ?";
     }
 
-    database.select(sql, [keyword+'%'], function(err, results){
+    database.query(sql, [keyword+'%'], function(err, results){
       if (err) {
         console.log(err);
         res.status(200).send([]);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select :value="selectedValue" :debounce="250" :on-change="skillChanged" :options="options" placeholder="VueJS, NodeJS, Javascript, ..." ></v-select>
+    <v-select :value="selectedValue" :on-search="onSearch" :debounce="250" :on-change="skillChanged" :options="options" placeholder="VueJS, NodeJS, Javascript, ..." ></v-select>
   </div>
 </template>
 
@@ -36,6 +36,10 @@ export default {
   methods: {
     skillChanged(data){
       this.$emit('skillChanged', data);
+    },
+
+    onSearch(data){
+      this.$emit('onsearch', data);
     }
   }
 }
