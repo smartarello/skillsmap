@@ -16,6 +16,10 @@ module.exports = {
       }
 
       let user = results[0];
+      if (!user.picture || user.picture == ""){
+        user.picture = '/assets/images/user.png';
+      }
+
       database.query("SELECT skills.name, count(DISTINCT users_votes.id) as votes FROM skills INNER JOIN users_has_skills ON users_has_skills.skill_id = skills.id LEFT JOIN users_votes ON users_votes.users_has_skills_id = users_has_skills.id WHERE users_has_skills.user_id = ? GROUP BY skills.id ORDER BY votes DESC", [user.id], function(err, results){
           let skills = [];
           for (let i = 0; i < results.length; i++) {
