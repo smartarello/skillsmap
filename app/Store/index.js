@@ -6,14 +6,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    people: [],
     user: {}
   },
   mutations: {
-    loadPeople(state, people) {
-      state.people = people;
-    },
-
     userLoggedIn(state, user) {
       console.log('userLoggedIn');
       state.user = user;
@@ -30,14 +25,5 @@ export default new Vuex.Store({
   },
 
   actions: {
-      loadPeople (context) {
-        Vue.http.get('/api/people').then(
-        (res) => {
-          context.commit('loadPeople', res.body)
-        },
-        function (err) {
-          console.log(err);
-        });
-      }
   }
 })

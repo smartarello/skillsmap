@@ -20,10 +20,14 @@ module.exports = {
         user.picture = '/assets/images/user.png';
       }
 
-      database.query("SELECT skills.name, count(DISTINCT users_votes.id) as votes FROM skills INNER JOIN users_has_skills ON users_has_skills.skill_id = skills.id LEFT JOIN users_votes ON users_votes.users_has_skills_id = users_has_skills.id WHERE users_has_skills.user_id = ? GROUP BY skills.id ORDER BY votes DESC", [user.id], function(err, results){
+      database.query("SELECT skills.name, count(DISTINCT users_votes.id) as votes, GROUP_CONCAT(users_votes.user_id) as userIds FROM skills INNER JOIN users_has_skills ON users_has_skills.skill_id = skills.id LEFT JOIN users_votes ON users_votes.users_has_skills_id = users_has_skills.id WHERE users_has_skills.user_id = ? GROUP BY skills.id ORDER BY votes DESC", [user.id], function(err, results){
           let skills = [];
           for (let i = 0; i < results.length; i++) {
-            skills.push({name: results[i].name, votes: results[i].votes});
+            let userIds = [];
+            if (results[i].userIds) {
+              userIds = results[i].userIds.split(',');
+            }
+            skills.push({name: results[i].name, votes: results[i].votes, userIds:userIds});
           }
 
           user.skills = skills;
@@ -36,7 +40,14 @@ module.exports = {
 
   get(req, res) {
     console.log("Call on /people");
-    database.query("SELECT users.username, users.name, users.firstname, job_title, picture, GROUP_CONCAT(skills.name) as skills FROM users LEFT JOIN users_has_skills ON users_has_skills.user_id = users.id LEFT JOIN skills ON skills.id = users_has_skills.skill_id GROUP BY users.id",
+
+    let start = 0;
+    if (req.query.start) {
+      start = parseInt(req.query.start);
+    }
+
+    database.query("SELECT users.username, users.name, users.firstname, job_title, picture, GROUP_CONCAT(skills.name) as skills FROM users LEFT JOIN users_has_skills ON users_has_skills.user_id = users.id LEFT JOIN skills ON skills.id = users_has_skills.skill_id GROUP BY users.id LIMIT ?, 25",
+      [start],
       function(error, results){
         if (error) {
           console.log(error);

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-default">
+        <nav v-if="isLoggedIn" class="navbar navbar-default">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li><router-link to="/home">Home</router-link></li>
@@ -16,7 +16,12 @@
 <script>
 
     export default {
-        name: 'app'
+        name: 'app',
+      computed: {
+        isLoggedIn(){
+          return typeof this.$store.state.user.username !== 'undefined';
+        }
+      }
     };
 
 </script>

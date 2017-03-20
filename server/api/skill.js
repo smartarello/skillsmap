@@ -29,5 +29,22 @@ module.exports = {
         res.status(200).send(skills);
       }
     });
+  },
+
+  vote(req, res){
+
+    if (!req.body.user || !req.body.skill || !req.session.user) {
+      res.status(403).send();
+      return ;
+    }
+
+    let sql = "INSERT INTO users_votes (user_id, users_has_skills_id)" +
+      "        SELECT ?, users_has_skills.id" +
+      "        FROM users_has_skills" +
+      "        INNER JOIN skills ON skills.id = users_has_skills.skill_id" +
+      "        WHERE skills.name = ? AND users_has_skills.user_id = ?";
+
+    database.query(sql, [req.session.user.id, req.body.skill, req.body.user]);
+    res.status(200).send();
   }
 };

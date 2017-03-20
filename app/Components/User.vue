@@ -63,16 +63,21 @@
                         </div>
                         <ul class="list-group User-skillList"  v-if="user.skills.length != 0">
                             <li v-for="skill in user.skills" class="list-group-item">
-                                <button v-on:click="removeSkill(skill.name, user)" v-if="edit" type="button" class="btn btn-warning User-deleteSkillButton"><i class="glyphicon glyphicon-remove"></i></button>
-                                <span v-if="skill.votes != 0" class="badge">{{skill.votes}}</span>
-                                {{ skill.name }}
+
+                                <button v-on:click="removeSkill(skill.name)" v-if="edit" type="button" class="btn btn-warning User-deleteSkillButton"><i class="glyphicon glyphicon-remove"></i></button>
+                                <div class="User-skill">
+                                    <span>{{ skill.name }}</span>
+                                    <span v-if="skill.votes != 0" class="User-skillVoteBadge">{{skill.votes}}</span>
+                                </div>
+                                <button v-on:click="vote(skill.name)" v-if="!isMyprofile && !alreadyVote(skill.name)" type="button" class="btn btn-primary User-voteButton"><i class="User-voteButtonIcon glyphicon glyphicon-plus"></i></button>
+                                <span v-if="!isMyprofile && alreadyVote(skill.name)" class="User-votedIconContainer"><i class="User-votedIcon glyphicon glyphicon-thumbs-up"></i></span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <button v-if="edit" v-on:click="onSave"  type="button" class="btn btn-primary  col-sm-2 col-xs-12 col-sm-offset-8 col-md-offset-8">Save</button>
-                <button v-if="edit" v-on:click="onCancel"  type="button" class="btn btn-default  col-sm-2 col-xs-12">Cancel</button>
+                <button v-if="edit" v-on:click="onSave"  type="button" class="btn btn-primary  col-sm-2 col-xs-12">Save</button>
+                <button v-if="edit" v-on:click="onCancel"  type="button" class="btn btn-default  col-sm-2 col-xs-12 User-cancelButton">Cancel</button>
             </div>
         </div>
     </div>
@@ -101,6 +106,39 @@
       },
 
       methods: {
+
+          alreadyVote(skill){
+            for (let i = 0; i < this.user.skills.length; i++) {
+              if (this.user.skills[i].name == skill) {
+                if (this.user.skills[i].userIds.indexOf(this.$store.state.user.id) != -1 || this.user.skills[i].userIds.indexOf(""+this.$store.state.user.id) != -1) {
+                  return true;
+                }
+
+                return false;
+              }
+            }
+
+            return false;
+          },
+
+        vote(skill) {
+          let modifiedSkillList = [];
+          for (let i = 0; i < this.user.skills.length; i++) {
+            if (this.user.skills[i].name != skill) {
+              modifiedSkillList.push(this.user.skills[i]);
+            } else {
+              let modifiedSkill = this.user.skills[i];
+              modifiedSkill.votes = modifiedSkill.votes+1;
+              modifiedSkill.userIds.push(this.$store.state.user.id);
+              modifiedSkillList.push(modifiedSkill);
+            }
+          }
+
+          this.user.skills = modifiedSkillList;
+
+          this.$http.post('/api/skill/vote', {user: this.user.id, skill: skill});
+        },
+
         skillChanged(skill){
           this.skillText = "";
           this.selectedSkill = skill;
@@ -174,6 +212,7 @@
 </script>
 
 <style lang="scss">
+
     .User-information > tbody > tr {
         border-top: 1px solid rgb(221, 221, 221);
     }
@@ -197,12 +236,85 @@
     }
 
     .User-deleteSkillButton {
-        width: 25px;
-        height: 25px;
+        background-color: transparent;
+        border: 0;
+        box-sizing: border-box;
+        color: #f0ad4e;
+        cursor: pointer;
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        transition-duration: 167ms;
+        transition-property: background-color,box-shadow,color;
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+        vertical-align: middle;
+        box-shadow: inset 0 0 0 1px #f0ad4e, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
+        border-radius: 16px;
+        width: 32px;
+        padding: 0;
+    }
+
+    .User-voteButton {
+        background-color: transparent;
+        border: 0;
+        box-sizing: border-box;
+        color: #0084bf;
+        cursor: pointer;
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        transition-duration: 167ms;
+        transition-property: background-color,box-shadow,color;
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+        vertical-align: middle;
+        box-shadow: inset 0 0 0 1px #0084bf, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
+        border-radius: 16px;
+        width: 32px;
+        padding: 0;
+    }
+
+    .User-skillVoteBadge:before {
+        content:"• ";
+    }
+
+    .User-voteButtonIcon {
+        font-family: "Verdana", "Helvetica Neue", "Helvetica";
+        font-size: 24px;
+        margin: -4px 0 0;
+    }
+
+    .User-skill {
+        background-color: #e6e9ec;
+        height: 32px;
+        line-height: 32px;
+        font-size: 15px;
+        padding: 0 12px;
+        border-radius: 32px;
+        display: inline-block;
+    }
+
+    .User-votedIconContainer {
+        background-color: transparent;
+        border: 0;
+        box-sizing: border-box;
+        color: #5cb85c;
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        transition-duration: 167ms;
+        transition-property: background-color,box-shadow,color;
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+        vertical-align: middle;
+        box-shadow: inset 0 0 0 1px #5cb85c, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
+        border-radius: 16px;
+        width: 32px;
+        padding: 8px 0 0;
         text-align: center;
-        padding: 0 0 2px 1px;
-        font-size: 14px;
-        border-radius: 15px;
+        font-size: 16px;
+    }
+
+    .User-cancelButton {
+        margin-left: 10px;
     }
 
 </style>

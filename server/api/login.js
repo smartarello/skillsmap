@@ -1,4 +1,5 @@
 let config = require('../config.js');
+let database = require('../utils/database');
 
 module.exports = {
   getOAuthUrl(req, res){
@@ -80,24 +81,19 @@ module.exports = {
                 picture = response.image.url.replace('sz=50', 'sz=200');
               }
 
+              database.query("INSERT INTO users (username, name, firstname, picture) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)", [email, name, firstname, picture], function(err, result){
 
-              let mysql = require('mysql');
-              let connection = mysql.createConnection({
-                host     : config.mysql.host,
-                user     : config.mysql.user,
-                password : config.mysql.password,
-                database : config.mysql.database
-              });
-
-              connection.connect((err) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    connection.query("INSERT INTO users (username, name, firstname, picture) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)", [email, name, firstname, picture]);
-                    req.session.user = {username: email, name: name, firstname: firstname, picture: picture};
+                if (err) {
+                  console.log(err);
+                  res.status(500).send();
+                } else {
+                  database.query("SELECT * FROM users WHERE username = ?", [email], function(err, result){
+                    req.session.user = result[0];
                     res.status(200).send(req.session.user);
-                  }
+                  });
+                }
               });
+
             }
         });
       } else {

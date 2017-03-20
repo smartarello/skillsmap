@@ -4095,6 +4095,10 @@ vue-html-loader@^1.2.4:
     loader-utils "^1.0.2"
     object-assign "^4.1.0"
 
+vue-infinite-loading@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/vue-infinite-loading/-/vue-infinite-loading-2.0.3.tgz#89de277ff5b22709d701f6dedf13718cb5975b35"
+
 vue-loader@^11.1.4:
   version "11.1.4"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-11.1.4.tgz#d399b0ee10b34f2e41183b1e52255c4ab9f1f845"

@@ -10,6 +10,10 @@
         <div class="row">
           <user-card v-for="user in users" :user="user" class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></user-card>
         </div>
+        <infinite-loading :on-infinite="loadMore" ref="infiniteLoading">
+          <span slot="no-more">
+          </span>
+        </infinite-loading>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
       </div>
@@ -20,18 +24,41 @@
 <script>
 import UserCard from './UserCard.vue'
 import SearchBar from './SearchBar.vue'
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   name: 'people',
-  computed: {
-    users(){
-      return this.$store.state.people;
+
+  data: function(){
+    return {users: [], start: 0};
+  },
+
+  components: {'user-card' : UserCard, 'search-bar' : SearchBar, 'infinite-loading': InfiniteLoading},
+
+  methods: {
+    loadMore(){
+      this.$http.get('/api/people?start='+this.start).then(
+        (res) => {
+
+          for (let i = 0; i < res.body.length; i++) {
+            this.users.push(res.body[i]);
+          }
+
+          this.start += res.body.length;
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
+
+          if (res.body.length < 25) {
+            this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
+          }
+        },
+        (err)=> {
+          console.log(err);
+        });
     }
   },
-  components: {'user-card' : UserCard, 'search-bar' : SearchBar},
 
   mounted: function () {
-    this.$store.dispatch('loadPeople');
+
   }
 }
 </script>
