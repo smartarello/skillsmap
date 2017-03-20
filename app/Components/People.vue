@@ -38,7 +38,6 @@ export default {
   methods: {
 
     onSubmit(filter){
-      console.log(filter);
       this.filter = filter;
       this.start = 0;
       this.users = [];
@@ -65,10 +64,6 @@ export default {
           console.log(err);
         });
     }
-  },
-
-  mounted: function () {
-
   }
 }
 </script>

@@ -32,7 +32,8 @@ router.get('/login', LoginApi.login);
 router.get('/user', UserApi.getUser);
 router.post('/user/save', UserApi.save);
 router.get('/people', UserApi.get);
-router.get('/skill/search', SkillApi.get);
+router.get('/skill/search', SkillApi.search);
+router.get('/skills', SkillApi.get);
 router.post('/skill/vote', SkillApi.vote);
 
 app.use(function (req, res, next) {

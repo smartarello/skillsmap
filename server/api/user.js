@@ -109,8 +109,6 @@ module.exports = {
               users[results[i].username] = user;
             }
 
-            console.log(user.skill);
-
             if (user.skill != null && users[results[i].username].skills.length < 3) {
               users[results[i].username].skills.push({name: user.skill, votes: user.votes});
             }
