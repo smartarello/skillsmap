@@ -5,7 +5,7 @@
 
       <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
         <div class="row">
-          <search-bar class="People-searchBar col-xs-12 col-sm-12 col-md-9"></search-bar>
+          <search-bar v-on:submit="onSubmit" class="People-searchBar col-xs-12 col-sm-12 col-md-9"></search-bar>
         </div>
         <div class="row">
           <user-card v-for="user in users" :user="user" class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></user-card>
@@ -30,14 +30,24 @@ export default {
   name: 'people',
 
   data: function(){
-    return {users: [], start: 0};
+    return {users: [], start: 0, filter: ''};
   },
 
   components: {'user-card' : UserCard, 'search-bar' : SearchBar, 'infinite-loading': InfiniteLoading},
 
   methods: {
+
+    onSubmit(filter){
+      console.log(filter);
+      this.filter = filter;
+      this.start = 0;
+      this.users = [];
+
+      this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+    },
+
     loadMore(){
-      this.$http.get('/api/people?start='+this.start).then(
+      this.$http.get('/api/people?start='+this.start+'&q='+this.filter).then(
         (res) => {
 
           for (let i = 0; i < res.body.length; i++) {

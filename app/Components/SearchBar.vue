@@ -1,7 +1,7 @@
 <template>
 <div class="SearchBar">
   <div class="input-group stylish-input-group">
-    <input type="text" class="form-control SearchBar-input" placeholder="Search for...">
+    <input v-model="filter" v-on:keyup.enter="onSubmit" type="text" class="form-control SearchBar-input" placeholder="Search for...">
     <span class="input-group-addon SearchBar-buttonContainer">
         <button type="submit" class="SearchBar-button">
             <span class="glyphicon glyphicon-search"></span>
@@ -13,8 +13,17 @@
 
 <script>
   export default {
-    name:'search-bar'
+    name:'search-bar',
 
+    data: function(){
+      return {filter: ''};
+    },
+
+    methods: {
+      onSubmit(){
+        this.$emit('submit', this.filter);
+      }
+    }
   }
 </script>
 

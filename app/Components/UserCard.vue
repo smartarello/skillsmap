@@ -3,11 +3,11 @@
     <div v-on:click="showUserDetails" class="UserCard-container ">
       <div class="UserCard-pictureContainer"><img class="UserCard-picture" :src="user.picture"/></div>
       <div class="UserCard-name">{{ user.name }} {{ user.firstname}}</div>
-      <div class="UserCard-jobTitle">{{ user.jobTitle }}</div>
+      <div class="UserCard-jobTitle">{{ user.job_title }}</div>
 
         <ul class="UserCard-skills" v-if="user.skills.length != 0">
           <li v-for="skill in user.skills" >
-            {{ skill }}
+            {{ skill.name }}
           </li>
         </ul>
 
@@ -25,7 +25,6 @@
         this.$store.commit('showUserDetails', this.user);
       }
     }
-
   }
 </script>
 

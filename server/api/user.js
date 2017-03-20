@@ -46,37 +46,90 @@ module.exports = {
       start = parseInt(req.query.start);
     }
 
-    database.query("SELECT users.username, users.name, users.firstname, job_title, picture, GROUP_CONCAT(skills.name) as skills FROM users LEFT JOIN users_has_skills ON users_has_skills.user_id = users.id LEFT JOIN skills ON skills.id = users_has_skills.skill_id GROUP BY users.id LIMIT ?, 25",
-      [start],
-      function(error, results){
-        if (error) {
-          console.log(error);
-          res.status(500).send();
-          return ;
+    let parameters = [];
+    let sqlFilter = "";
+
+    if (req.query.q && req.query.q != "") {
+      sqlFilter = "WHERE users.name LIKE ? OR users.firstname LIKE ? OR skills.name LIKE ? ";
+      parameters.push(req.query.q + '%');
+      parameters.push(req.query.q + '%');
+      parameters.push(req.query.q + '%');
+    }
+
+    parameters.push(start);
+
+    let sqlSearch = "SELECT users.id " +
+      "                            FROM users" +
+      "                            LEFT JOIN users_has_skills ON users_has_skills.user_id = users.id " +
+      "                            LEFT JOIN skills ON skills.id = users_has_skills.skill_id " +  sqlFilter +
+      "                            GROUP BY users.id" +
+      "                            ORDER BY users.name ASC" +
+      "                            LIMIT ?, 25";
+
+    database.query(sqlSearch, parameters, function (error, results) {
+      if (error) {
+        console.log(error);
+        res.status(500).send();
+        return ;
+      }
+
+      let ids = [];
+        for(let i = 0; i < results.length; i++) {
+          ids.push(results[i].id);
         }
 
-        let users = [];
-        for (let i = 0; i < results.length; i++) {
-          let row = results[i];
-          let skills = [];
-          let user = {username: row.username, name: row.name, firstname: row.firstname, jobTitle: row.job_title};
-          if (row.skills) {
-            skills = row.skills.split(',').slice(0, 3);
+      let sql = "SELECT users.*, skills.name as skill, count(DISTINCT users_votes.id) as votes" +
+        "        FROM users " +
+        "        LEFT JOIN users_has_skills ON users_has_skills.user_id = users.id " +
+        "        LEFT JOIN users_votes ON users_votes.users_has_skills_id = users_has_skills.id " +
+        "        LEFT JOIN skills ON skills.id = users_has_skills.skill_id " +
+        "        WHERE users.id IN ("+ ids.join(',') +") " +
+        "        GROUP BY users.id, skills.name " +
+        "        ORDER BY users.name ASC, votes DESC";
+
+      database.query(sql,
+        parameters,
+        function(error, results){
+          if (error) {
+            console.log(error);
+            res.status(500).send();
+            return ;
           }
 
-          user.skills = skills;
+          let users = {};
+          for (let i = 0; i < results.length; i++) {
+            let user = results[i];
 
-          if (row.picture) {
-            user.picture = row.picture;
-          } else {
-            user.picture = '/assets/images/user.png';
+            if (typeof users[results[i].username] == 'undefined') {
+              user.skills = [];
+              if (!user.picture) {
+                user.picture = '/assets/images/user.png';
+              }
+
+              users[results[i].username] = user;
+            }
+
+            console.log(user.skill);
+
+            if (user.skill != null && users[results[i].username].skills.length < 3) {
+              users[results[i].username].skills.push({name: user.skill, votes: user.votes});
+            }
           }
 
-          users.push(user);
-        }
+          let data = [];
+          for (let key in users) {
+            if (users.hasOwnProperty(key)) {
+              data.push(users[key]);
+            }
+          }
 
-        res.status(200).send(users);
-      });
+          res.status(200).send(data);
+        });
+
+    });
+
+
+
 
   },
 
