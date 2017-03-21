@@ -4,9 +4,9 @@
             <div class="SkillCard-name">{{ skill.name }}</div>
             <ul class="SkillCard-users" v-if="skill.users.length != 0">
                 <li v-for="user in skill.users" class="SkillCard-user">
+                    <span class="SkillCard-userVote badge">{{ user.votes }}</span>
                     <img :src="user.picture" class="img-circle img-responsive SkillCard-userPicture" />
                     <span>{{ user.name }} {{user.firstname}}</span>
-                    <span class="SkillCard-userVote badge">{{ user.votes }}</span>
                 </li>
             </ul>
 

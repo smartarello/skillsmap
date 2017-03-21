@@ -5,7 +5,11 @@
                 <ul class="nav navbar-nav">
                     <li><router-link to="/home">Home</router-link></li>
                     <li><router-link to="/skills">Skills</router-link></li>
-                    <li><router-link :to="myProfileUrl">Profile</router-link></li>
+                    <li><router-link :to="myProfileUrl">My profile</router-link></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><router-link :to="myProfileUrl"><span class="glyphicon glyphicon-user"></span> {{ $store.state.user.name }} {{ $store.state.user.firstname }}</router-link></li>
+                    <li><router-link to="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</router-link></li>
                 </ul>
             </div>
         </nav>

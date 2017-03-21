@@ -10,9 +10,13 @@ export default new Vuex.Store({
   },
   mutations: {
     userLoggedIn(state, user) {
-      console.log('userLoggedIn');
       state.user = user;
       router.push({name: 'home'});
+    },
+
+    userLoggedOut(state, user) {
+      state.user = {};
+      router.push({name: 'login'});
     },
 
     showUserDetails(state, user) {
@@ -27,3 +31,4 @@ export default new Vuex.Store({
   actions: {
   }
 })
+

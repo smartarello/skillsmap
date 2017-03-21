@@ -98,7 +98,16 @@ module.exports = {
         });
       } else {
         console.log(err);
+        res.status(403).send();
       }
     });
+  },
+
+  logout(req, res){
+    if (req.session) {
+      req.session.destroy();
+    }
+
+    res.status(200).send();
   }
 };

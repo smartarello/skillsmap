@@ -1,7 +1,7 @@
 <template>
   <div class="Login container">
-    <div v-if="googleUrl == ''"  class="Login-loaderContainer"><div class="Login-loader"></div></div>
-    <h3 class="Login-title">Login with Google...</h3>
+    <div v-if="processingLogin"  class="Login-loaderContainer"><div class="Login-loader"></div></div>
+    <h3 class="Login-title">Skills map</h3>
     <div class="Login-buttonContainer">
       <button v-on:click="connect" type="button" class="btn btn-lg Login-button"></button>
     </div>
@@ -13,7 +13,7 @@ export default {
   name: 'login',
 
   data: function(){
-    return {'googleUrl' : ''}
+    return {'googleUrl' : '', processingLogin: false}
   },
 
 
@@ -21,7 +21,7 @@ export default {
     connect(event) {
       if (this.googleUrl) {
         window.location.href = this.googleUrl;
-        this.googleUrl = "";
+        this.processingLogin = true;
       }
     },
 
@@ -35,6 +35,18 @@ export default {
       if (!results) return null;
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
+    },
+
+    getOAuthUrl(){
+      this.$http.get('/api/getOAuthUrl').then(
+        (res) => {
+          if (res.body && res.body.googleUrl) {
+            this.googleUrl = res.body.googleUrl;
+          } else if (res.body.user) {
+            this.$store.commit('userLoggedIn', res.body.user);
+          }
+        }
+      );
     }
   },
 
@@ -43,19 +55,20 @@ export default {
     // If the code is present, the callback url was called by google
     // We have the google code to retrieve the user data
     if (code) {
+      this.processingLogin = true;
       this.$http.get('/api/login?code='+code).then(
       (res) => {
         this.$store.commit('userLoggedIn', res.body);
-      });
-    } else {
-      this.$http.get('/api/getOAuthUrl').then(
-      (res) => {
-        if (res.body && res.body.googleUrl) {
-          this.googleUrl = res.body.googleUrl;
-        } else if (res.body.user) {
-          this.$store.commit('userLoggedIn', res.body.user);
+      },
+        (res) => {
+          // error
+          this.processingLogin = false;
+          this.getOAuthUrl();
         }
-      });
+
+      );
+    } else {
+      this.getOAuthUrl();
     }
   }
 }
