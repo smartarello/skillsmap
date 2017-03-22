@@ -81,6 +81,11 @@ module.exports = {
         return;
       }
 
+      if (results.length == 0) {
+        res.status(200).send([]);
+        return;
+      }
+
       let ids = [];
       for(let i = 0; i < results.length; i++) {
         ids.push(results[i].id);
