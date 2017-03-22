@@ -7,7 +7,7 @@
 
         <ul class="UserCard-skills" v-if="user.skills.length != 0">
           <li v-for="skill in user.skills" >
-            {{ skill.name }}
+            {{ skill.name }} <span v-if="skill.votes > 0" class="badge">{{ skill.votes }}</span>
           </li>
         </ul>
 
@@ -37,8 +37,7 @@
     &-container {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     background-color: #FFFFFF;
-    height: 300px;
-    width: 215px;
+    height: 280px;
     margin: 20px auto 0;
     cursor: pointer;
   }
@@ -51,8 +50,8 @@
     &-picture {
       margin: 0 auto;
       display: block;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
     }
 

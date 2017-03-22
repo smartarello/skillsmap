@@ -3,8 +3,6 @@ let database = require('../utils/database');
 
 module.exports = {
   getOAuthUrl(req, res){
-    console.log("Call getOAuthUrl");
-
     if (req.session.user) {
       res.status(200).send({user: req.session.user});
       return ;
@@ -38,8 +36,6 @@ module.exports = {
   },
 
   login(req, res){
-
-    console.log('Call login');
 
     if (!req.query.code) {
         res.status(403).send();
@@ -109,5 +105,13 @@ module.exports = {
     }
 
     res.status(200).send();
+  },
+
+  checkLogin(req, res, next){
+    if (req.session && req.session.user) {
+      next();
+    } else {
+      res.status(403).send();
+    }
   }
 };

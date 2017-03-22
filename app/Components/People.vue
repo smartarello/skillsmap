@@ -1,9 +1,9 @@
 <template>
   <div class="People">
-    <h1>People</h1>
+    <h1 class="People-title">People</h1>
     <div class="row">
 
-      <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
         <div class="row">
           <search-bar v-on:submit="onSubmit" class="People-searchBar col-xs-12 col-sm-12 col-md-8 col-md-offset-2"></search-bar>
         </div>
@@ -15,7 +15,8 @@
           </span>
         </infinite-loading>
       </div>
-      <div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
+      <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
+        <top-skills></top-skills>
       </div>
     </div>
   </div>
@@ -25,6 +26,7 @@
 import UserCard from './UserCard.vue'
 import SearchBar from './SearchBar.vue'
 import InfiniteLoading from 'vue-infinite-loading';
+import TopSkills from './TopSkills.vue';
 
 export default {
   name: 'people',
@@ -33,7 +35,7 @@ export default {
     return {users: [], start: 0, filter: ''};
   },
 
-  components: {'user-card' : UserCard, 'search-bar' : SearchBar, 'infinite-loading': InfiniteLoading},
+  components: {'user-card' : UserCard, 'search-bar' : SearchBar, 'infinite-loading': InfiniteLoading, 'top-skills': TopSkills},
 
   methods: {
 
@@ -46,7 +48,7 @@ export default {
     },
 
     loadMore(){
-      this.$http.get('/api/people?start='+this.start+'&q='+this.filter).then(
+      this.$http.get('/api/user/search?start='+this.start+'&q='+this.filter).then(
         (res) => {
 
           for (let i = 0; i < res.body.length; i++) {
@@ -69,5 +71,7 @@ export default {
 </script>
 
 <style  lang="scss">
-
+.People-title {
+  color: #FFFFFF;
+}
 </style>

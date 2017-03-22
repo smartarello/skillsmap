@@ -1,8 +1,8 @@
 <template>
     <div class="Skills container">
-        <h1>Skills</h1>
+        <h1 class="Skills-title">Skills</h1>
         <div class="row">
-            <search-bar v-on:submit="onSubmit" class="People-searchBar col-xs-12 col-sm-12 col-md-9"></search-bar>
+            <search-bar v-on:submit="onSubmit" class="People-searchBar col-xs-12 col-sm-8 col-md-8 col-sm-offset-2"></search-bar>
         </div>
         <div class="row">
             <skill-card v-for="skill in skills" :skill="skill" class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></skill-card>
@@ -63,5 +63,7 @@
 </script>
 
 <style  lang="scss">
-
+.Skills-title{
+    color: #FFFFFF;
+}
 </style>

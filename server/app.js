@@ -26,16 +26,22 @@ app.use(bodyParser.json());
 
 database.createSchema();
 
+// route with security
+router.all('/user/*', LoginApi.checkLogin);
+router.all('/skills/*', LoginApi.checkLogin);
 
+
+// routes definition
 router.get('/getOAuthUrl', LoginApi.getOAuthUrl);
 router.get('/login', LoginApi.login);
 router.post('/logout', LoginApi.logout);
 router.get('/user', UserApi.getUser);
 router.post('/user/save', UserApi.save);
-router.get('/people', UserApi.get);
-router.get('/skill/search', SkillApi.search);
+router.get('/user/search', UserApi.get);
+router.get('/skills/search', SkillApi.search);
 router.get('/skills', SkillApi.get);
-router.post('/skill/vote', SkillApi.vote);
+router.get('/skills/top', SkillApi.getTop);
+router.post('/skills/vote', SkillApi.vote);
 
 app.use(function (req, res, next) {
 

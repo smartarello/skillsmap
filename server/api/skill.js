@@ -4,8 +4,6 @@ module.exports = {
 
   search(req, res) {
 
-    console.log("Call /api/search/skill : "+req.query.q);
-
     let keyword = "";
     if (req.query.q) {
       keyword = req.query.q.trim();
@@ -49,10 +47,6 @@ module.exports = {
   },
 
   get(req, res){
-    if (!req.session.user) {
-      res.status(403).send();
-      return ;
-    }
 
     let start = 0;
     if (req.query.start) {
@@ -141,9 +135,25 @@ module.exports = {
 
 
     });
+  },
 
+  getTop(req, res){
 
+    let sql = "SELECT skills.name, count(DISTINCT users_votes.id) as votes" +
+      "              FROM skills" +
+      "              INNER JOIN users_has_skills ON users_has_skills.skill_id = skills.id" +
+      "              INNER JOIN users_votes ON users_votes.users_has_skills_id = users_has_skills.id" +
+      "              GROUP BY skills.id" +
+      "              ORDER BY votes DESC" +
+      "              LIMIT 10";
 
-
+    database.query(sql, [], function(error, results) {
+      if (error) {
+          console.log(error);
+          res.status(500).send();
+      } else {
+          res.status(200).send(results);
+      }
+    });
   }
 };

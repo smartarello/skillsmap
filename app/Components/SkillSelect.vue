@@ -28,7 +28,7 @@ export default {
 
   mounted: function()
   {
-    this.$http.get('/api/skill/search').then( (resp) => {
+    this.$http.get('/api/skills/search').then( (resp) => {
       this.options = resp.body;
     });
   },

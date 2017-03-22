@@ -1,5 +1,5 @@
 <template>
-  <div class="Login container">
+  <div class="Login">
     <div v-if="processingLogin"  class="Login-loaderContainer"><div class="Login-loader"></div></div>
     <h3 class="Login-title">Skills map</h3>
     <div class="Login-buttonContainer">
@@ -80,12 +80,12 @@ export default {
     height: 400px;
     background-color: #FFFFFF;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-top: 80px;
+    margin: 80px auto 0;
     position: relative;
   }
 
   .Login-title {
-    margin-top: 55px;
+    padding-top: 55px;
     text-align: center;
     color: #D20108;
     font-family: robotomedium;

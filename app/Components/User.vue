@@ -136,7 +136,7 @@
 
           this.user.skills = modifiedSkillList;
 
-          this.$http.post('/api/skill/vote', {user: this.user.id, skill: skill});
+          this.$http.post('/api/skills/vote', {user: this.user.id, skill: skill});
         },
 
         skillChanged(skill){

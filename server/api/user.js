@@ -2,12 +2,6 @@ let database = require('../utils/database');
 
 module.exports = {
   getUser(req, res) {
-    console.log("Call getUser");
-
-    if (!req.query.username) {
-      res.status(403).send();
-      return ;
-    }
 
     database.query("SELECT * FROM users  WHERE users.username = ?", [req.query.username], function(err, results){
       if (!results || results.length == 0) {
@@ -39,7 +33,6 @@ module.exports = {
   },
 
   get(req, res) {
-    console.log("Call on /people");
 
     let start = 0;
     if (req.query.start) {
