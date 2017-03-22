@@ -5,7 +5,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <span class="panel-title">{{user.name}} {{user.firstname}}</span>
-                        <span class="pull-right" v-if="!edit && isMyprofile">
+                        <span class="pull-right User-editButtonContainer" v-if="!edit && isMyprofile">
                             <button v-on:click="onEdit" data-original-title="Edit" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></button>
                         </span>
                     </div>
@@ -315,6 +315,10 @@
 
     .User-cancelButton {
         margin-left: 10px;
+    }
+
+    .User-editButtonContainer {
+        margin-top: -4px;
     }
 
 </style>
