@@ -2,7 +2,7 @@
     <div class="container">
         <div v-if="user" class="row">
             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 User-toppad" >
-                <div class="panel panel-info">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <span class="panel-title">{{user.name}} {{user.firstname}}</span>
                         <span class="pull-right" v-if="!edit && isMyprofile">
@@ -52,7 +52,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2" >
-                <div class="panel panel-info">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">Skills</h3>
                     </div>
