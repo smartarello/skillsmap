@@ -44,6 +44,7 @@
         text-align: center;
         padding-top: 10px;
         margin-bottom: 30px;
+        font-family: 'Poller One', cursive;
     }
 
     .TopSkills-skills {

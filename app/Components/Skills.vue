@@ -65,5 +65,7 @@
 <style  lang="scss">
 .Skills-title{
     color: #FFFFFF;
+    font-family: 'Poller One', cursive;
+    margin-bottom: 30px;
 }
 </style>

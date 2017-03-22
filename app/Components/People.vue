@@ -73,5 +73,7 @@ export default {
 <style  lang="scss">
 .People-title {
   color: #FFFFFF;
+  font-family: 'Poller One', cursive;
+  margin-bottom: 30px;
 }
 </style>

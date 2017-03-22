@@ -7,13 +7,10 @@
   font-style: normal;
 }
 
-html {
-  background: url('/assets/images/background.png') no-repeat center center fixed;
-  background-size: cover;
-}
-
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
 
 .Body {
   background: url('/assets/images/background.png') no-repeat center center fixed;
   background-size: cover;
+  padding-top: 50px;
 }

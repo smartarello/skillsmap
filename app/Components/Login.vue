@@ -1,7 +1,7 @@
 <template>
   <div class="Login">
     <div v-if="processingLogin"  class="Login-loaderContainer"><div class="Login-loader"></div></div>
-    <h3 class="Login-title">Skills map</h3>
+    <h3 class="Login-title">Skills Map</h3>
     <div class="Login-buttonContainer">
       <button v-on:click="connect" type="button" class="btn btn-lg Login-button"></button>
     </div>
@@ -76,19 +76,20 @@ export default {
 
 <style  lang="scss">
   .Login {
-    width: 400px;
-    height: 400px;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 80px auto 0;
     position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 80px auto;
+    padding: 50px 40px 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ccc;
   }
 
   .Login-title {
-    padding-top: 55px;
     text-align: center;
     color: #D20108;
-    font-family: robotomedium;
+    font-family: 'Poller One', cursive;
   }
 
   .Login-buttonContainer {
@@ -106,14 +107,14 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     background-color: #000000;
     opacity: 0.3;
   }
 
   .Login-loader {
-    margin: 230px auto 0;
+    margin: 50px auto 0;
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
@@ -125,5 +126,30 @@ export default {
   @keyframes spinner {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+
+
+  .Login::before,.Login::after{
+    content: "";
+    position: absolute;
+    width: 100%;height: 100%;
+    top: 3.5px;left: 0;
+    background: #fff;
+    z-index: -1;
+    -webkit-transform: rotateZ(4deg);
+    -moz-transform: rotateZ(4deg);
+    -ms-transform: rotateZ(4deg);
+    border: 1px solid #ccc;
+
+  }
+
+  .Login::after{
+    top: 5px;
+    z-index: -2;
+    -webkit-transform: rotateZ(-2deg);
+    -moz-transform: rotateZ(-2deg);
+    -ms-transform: rotateZ(-2deg);
+
   }
 </style>
