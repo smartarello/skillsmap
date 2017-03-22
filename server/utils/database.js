@@ -31,6 +31,8 @@ module.exports = {
         } else {
           connection.query(sql, data);
         }
+
+        connection.end();
       }
     }) ;
   },

@@ -270,7 +270,7 @@
         box-shadow: inset 0 0 0 1px #0084bf, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
         border-radius: 16px;
         width: 32px;
-        padding: 0;
+        padding: 2px;
     }
 
     .User-skillVoteBadge:before {
@@ -308,7 +308,7 @@
         box-shadow: inset 0 0 0 1px #5cb85c, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
         border-radius: 16px;
         width: 32px;
-        padding: 8px 0 0;
+        padding: 3px 0 0;
         text-align: center;
         font-size: 16px;
     }
