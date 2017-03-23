@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select v-on:keyup.enter="onEnter" :value="selectedValue" :on-search="onSearch" :debounce="250" :on-change="skillChanged" :options="options" placeholder="VueJS, NodeJS, Javascript, ..." ></v-select>
+    <select class="SkillSelect-select form-control" id="skills-select"  multiple="multiple"></select>
   </div>
 </template>
 
@@ -32,15 +32,29 @@ export default {
 
   mounted: function()
   {
-    this.$http.get('/api/skills/search').then( (resp) => {
-      this.options = resp.body;
+    jQuery('#skills-select').select2({
+      placeholder: "NodeJS, VueJS, Javascript, ...",
+      tags: true,
+      tokenSeparators: [',', ' '],
+      //maximumSelectionLength: 1,
+      ajax: {
+        url: '/api/skills/search',
+        delay: 250,
+        processResults: function (data) {
+          return {
+            results: data
+          };
+        }
+      }
+    });
+
+    jQuery('#skills-select').on('select2:select', () => {
+      this.$emit('skillSelected', jQuery('#skills-select').val());
+      jQuery('#skills-select').val(null).trigger('change');
     });
   },
 
   methods: {
-    skillChanged(data){
-      this.$emit('skillChanged', data);
-    },
 
     onSearch(data){
       this.$emit('onsearch', data);
@@ -48,3 +62,7 @@ export default {
   }
 }
 </script>
+
+<style>
+  .SkillSelect-select {width: 100%;}
+</style>

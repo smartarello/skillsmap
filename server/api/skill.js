@@ -21,7 +21,7 @@ module.exports = {
       } else {
         let skills = [];
         for (let i = 0; i < results.length; i++) {
-          skills.push(results[i].name);
+          skills.push({id: results[i].name, text: results[i].name });
         }
 
         res.status(200).send(skills);

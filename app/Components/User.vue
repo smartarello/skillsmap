@@ -57,9 +57,8 @@
                         <h3 class="panel-title">Skills</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row" v-if="edit" >
-                            <skill-select v-bind:value="selectedSkill" v-on:onsearch="onSearch" v-on:skillChanged="skillChanged" class="col-xs-9 col-sm-9 col-md-9 col-lg-10"></skill-select>
-                            <button v-on:click="addSkill" type="button" class="btn btn-default col-xs-2 col-sm-2 col-md-2 col-lg-1">add</button>
+                        <div v-if="edit" >
+                            <skill-select v-on:skillSelected="skillSelected"></skill-select>
                         </div>
                         <ul class="list-group User-skillList"  v-if="user.skills.length != 0">
                             <li v-for="skill in user.skills" class="list-group-item">
@@ -90,7 +89,7 @@
 
     export default {
         data: function(){
-          return {user: null, selectedSkill: "", skillText: "", edit: false}
+          return {user: null, edit: false}
         },
 
       components: {skillSelect},
@@ -139,29 +138,20 @@
           this.$http.post('/api/skills/vote', {user: this.user.id, skill: skill});
         },
 
-        skillChanged(skill){
-          this.skillText = "";
-          this.selectedSkill = skill;
-        },
+        skillSelected(values){
 
-        onSearch(text){
-          this.skillText = text;
-        },
+            if (!values || values.length == 0) {
+              return;
+            }
 
-        addSkill(){
-
-          let skill = this.selectedSkill;
-          if (skill.trim() == "") {
-            skill = this.skillText;
+          let skill = values[0];
+          for (let i = 0; i<this.user.skills.length; i++) {
+            if (this.user.skills[i].name == skill) {
+              return; // The skill is already in the list
+            }
           }
 
-          let exists = this.user.skills.indexOf(skill);
-          if (exists == -1) {
-            this.user.skills.push({name: skill, votes: 0});
-          }
-
-          this.selectedSkill = "";
-          this.skillText = "";
+          this.user.skills.push({name: skill, votes: 0});
         },
 
 
@@ -239,14 +229,10 @@
         background-color: transparent;
         border: 0;
         box-sizing: border-box;
-        color: #f0ad4e;
         cursor: pointer;
         display: inline-block;
         height: 32px;
         line-height: 32px;
-        transition-duration: 167ms;
-        transition-property: background-color,box-shadow,color;
-        transition-timing-function: cubic-bezier(0,0,.2,1);
         vertical-align: middle;
         box-shadow: inset 0 0 0 1px #f0ad4e, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
         border-radius: 16px;
@@ -258,14 +244,10 @@
         background-color: transparent;
         border: 0;
         box-sizing: border-box;
-        color: #0084bf;
         cursor: pointer;
         display: inline-block;
         height: 32px;
         line-height: 32px;
-        transition-duration: 167ms;
-        transition-property: background-color,box-shadow,color;
-        transition-timing-function: cubic-bezier(0,0,.2,1);
         vertical-align: middle;
         box-shadow: inset 0 0 0 1px #0084bf, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
         border-radius: 16px;
@@ -295,15 +277,12 @@
 
     .User-votedIconContainer {
         background-color: transparent;
+        color: #5cb85c;
         border: 0;
         box-sizing: border-box;
-        color: #5cb85c;
         display: inline-block;
         height: 32px;
         line-height: 32px;
-        transition-duration: 167ms;
-        transition-property: background-color,box-shadow,color;
-        transition-timing-function: cubic-bezier(0,0,.2,1);
         vertical-align: middle;
         box-shadow: inset 0 0 0 1px #5cb85c, inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
         border-radius: 16px;
