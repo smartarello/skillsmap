@@ -34,13 +34,13 @@
 
 
 
-    &-container {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    background-color: #FFFFFF;
-    height: 280px;
-    margin: 20px auto 0;
-    cursor: pointer;
-  }
+  &-container {
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+     background-color: #FFFFFF;
+     height: 280px;
+     margin: 20px auto 0;
+     cursor: pointer;
+   }
 
     &-pictureContainer {
 

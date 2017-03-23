@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select :value="selectedValue" :on-search="onSearch" :debounce="250" :on-change="skillChanged" :options="options" placeholder="VueJS, NodeJS, Javascript, ..." ></v-select>
+    <v-select v-on:keyup.enter="onEnter" :value="selectedValue" :on-search="onSearch" :debounce="250" :on-change="skillChanged" :options="options" placeholder="VueJS, NodeJS, Javascript, ..." ></v-select>
   </div>
 </template>
 
@@ -16,6 +16,10 @@ export default {
 
   computed: {
     selectedValue(){
+      if (!this.value) {
+        return '';
+      }
+
       return this.value.trim();
     }
   },
