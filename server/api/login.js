@@ -20,7 +20,7 @@ module.exports = {
 
     // generate a url that asks permissions for Google+
     let scopes = [
-      'https://www.googleapis.com/auth/plus.me',
+      'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email'
     ];
 
@@ -77,7 +77,7 @@ module.exports = {
                 picture = response.image.url.replace('sz=50', 'sz=200');
               }
 
-              database.query("INSERT INTO users (username, name, firstname, picture) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name)", [email, name, firstname, picture], function(err, result){
+              database.query("INSERT INTO users (username, name, firstname, picture) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), firstname = VALUES(firstname)", [email, name, firstname, picture], function(err, result){
 
                 if (err) {
                   console.log(err);
