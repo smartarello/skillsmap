@@ -2,7 +2,7 @@
   <div class="UserCard">
     <div v-on:click="showUserDetails" class="UserCard-container ">
       <div class="UserCard-pictureContainer"><img class="UserCard-picture" :src="user.picture"/></div>
-      <div class="UserCard-name">{{ user.name }} {{ user.firstname}}</div>
+      <div class="UserCard-name">{{ user.firstname}} {{ user.name }}</div>
       <div class="UserCard-jobTitle">{{ user.job_title }}</div>
 
         <ul class="UserCard-skills" v-if="user.skills.length != 0">
