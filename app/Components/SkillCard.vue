@@ -32,7 +32,7 @@
     margin-top: 15px;
 
     &-container {
-         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
          background-color: #FFFFFF;
          height: 250px;
          width: 250px;

@@ -35,7 +35,7 @@
     .TopSkills {
         height: 300px;
         background-color: #FFFFFF;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         margin: 55px auto;
         max-width:200px;
     }

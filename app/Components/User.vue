@@ -94,6 +94,15 @@
 
       components: {skillSelect},
 
+      watch: {
+        '$route' (to, from) {
+
+          if (to.name == 'user' && to.params.username != this.user.username) {
+            this.getUserInfos();
+          }
+        }
+      },
+
       computed: {
         twitterUrl(){
           return "http://twitter.com/" + this.user.twitter;
