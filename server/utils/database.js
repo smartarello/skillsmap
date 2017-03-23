@@ -37,6 +37,10 @@ module.exports = {
     }) ;
   },
 
+  escape(text){
+    return mysql.escape(text);
+  },
+
   createSchema(){
 
     let connection = mysql.createConnection({

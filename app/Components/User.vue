@@ -294,6 +294,7 @@
 
     .User-cancelButton {
         margin-left: 10px;
+        margin-bottom: 20px;
     }
 
     .User-editButtonContainer {

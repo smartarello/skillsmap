@@ -158,16 +158,29 @@ module.exports = {
         let valuesToInsert = [];
         for (let i = 0; i < newSkills.length; i++) {
           if (currentSkills.indexOf(newSkills[i]) == -1) {
-            skillsToAdd.push("'" + newSkills[i] + "'");
-            valuesToInsert.push("('"+newSkills[i]+"')");
+            skillsToAdd.push(database.escape(newSkills[i]));
+            valuesToInsert.push("("+ database.escape(newSkills[i])+")");
           }
         }
 
         if (valuesToInsert.length > 0) {
           insertSql += valuesToInsert.join(",");
-          database.query(insertSql, [], function(){
+          database.query(insertSql, [], function(err){
+            if (err) {
+              console.log(err);
+              res.status(500).send();
+              return ;
+            }
+
             let insertUsersHasSkills = "INSERT IGNORE INTO users_has_skills (skill_id, user_id) SELECT skills.id, ? FROM skills WHERE skills.name IN ("+ skillsToAdd.join(',')  +")";
-            database.query(insertUsersHasSkills, [user.id], function(){
+            database.query(insertUsersHasSkills, [user.id], function(err){
+
+              if (err) {
+                console.log(err);
+                res.status(500).send();
+                return ;
+              }
+
               if (skillsToRemove.length > 0){
                 database.query("DELETE FROM users_has_skills WHERE user_id = ? AND skill_id IN ("+ skillsToRemove.join(',') +")", [user.id]);
               }
@@ -177,6 +190,7 @@ module.exports = {
           });
         } else if (skillsToRemove.length > 0){
             database.query("DELETE FROM users_has_skills WHERE user_id = ? AND skill_id IN ("+ skillsToRemove.join(',') +")", [user.id]);
+            res.status(200).send();
         } else {
           res.status(200).send();
         }
